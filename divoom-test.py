@@ -69,29 +69,17 @@ class TestDivoomAuraBox(unittest.TestCase):
 	def test_crc1(self):
 		data = self.read_bytes("crc1")
 		test_package = self.testee.create_package(data)
-		self.assertEqual(test_package[-4], 0xc)
-		self.assertEqual(test_package[-3], 0x03)
-		self.assertEqual(test_package[-2], 0x04)
+		self.assertEqual(test_package[58], 0xc)
 		
 	def test_crc2(self):
 		data = self.read_bytes("crc2")
 		test_package = self.testee.create_package(data)
-		self.assertEqual(test_package[-4], 0x55)
-		self.assertEqual(test_package[-3], 0x03)
-		self.assertEqual(test_package[-2], 0x05)
+		self.assertEqual(test_package[58], 0x55)
 		
 	def test_crc3(self):
 		data = self.read_bytes("crc3")
 		test_package = self.testee.create_package(data)
-		self.assertEqual(test_package[-4], 0x66)
-		self.assertEqual(test_package[-3], 0x03)
-		self.assertEqual(test_package[-2], 0x06)
-		
-	def test_crc4(self):
-		data = self.read_bytes("crc4")
-		test_package = self.testee.create_package(data)
-		self.assertEqual(test_package[-3], 0x4d)
-		self.assertEqual(test_package[-2], 0x04)
+		self.assertEqual(test_package[58], 0x66)
 		
 	def test_check1(self):
 		data = self.read_bytes("check1")
@@ -144,8 +132,8 @@ class TestDivoomAuraBox(unittest.TestCase):
 	def test_check9(self):
 		data = self.read_bytes("check9")
 		test_package = self.testee.create_package(data)
-		self.assertEqual(test_package[-3], 0x47) #crc
-		self.assertEqual(test_package[-2], 0x9) #check
+		self.assertEqual(test_package[58], 0x47) #crc
+		self.assertEqual(test_package[60], 0x9) #check
 		
 	def test_check10(self):
 		data = self.read_bytes("check10")
@@ -156,15 +144,8 @@ class TestDivoomAuraBox(unittest.TestCase):
 	def test_check11(self):
 		data = self.read_bytes("check11")
 		test_package = self.testee.create_package(data)
-		self.assertEqual(test_package[-3], 0xf) #crc
-		self.assertEqual(test_package[-2], 0xf) #check
-		
-	def test_check12(self):
-		data = self.read_bytes("check12")
-		test_package = self.testee.create_package(data)
-		self.assertEqual(test_package[-4], 0x12)
-		self.assertEqual(test_package[-3], 0x03)
-		self.assertEqual(test_package[-2], 0x04)
+		self.assertEqual(test_package[58], 0xf) #crc
+		self.assertEqual(test_package[60], 0xf) #check
 		
 if __name__ == '__main__':
 	unittest.main()

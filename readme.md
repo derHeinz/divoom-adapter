@@ -4,10 +4,10 @@
 
 ### Protocol typical 62 bytes ####
 8 bytes PREFIX
-50-100 bytes DATA
-3-5 bytes POSTFIX
+50 bytes (clean) DATA
+3-4 bytes POSTFIX
 
-#### PREFIX (static) ####
+#### PREFIX static ####
 01 39 00 44 00 0a 0a 04
 
 #### DATA ####
@@ -25,9 +25,10 @@ then add 0x03 to the invalid byte and append it.
 example: original = 0x01 -> corrected 0x03 0x04
 
 #### POSTFIX ####
-1. byte lower byte of the SUM over (PREFIX without first byte) + DATA (invalid bytes error correction applies here - so these may be two bytes)
-2. byte upper byte of the SUM over (PREFIX without first byte) + DATA (invalid bytes error correction applies here - so these may be two bytes)
+1. byte lower byte of the SUM over (PREFIX without first byte) + DATA
+2. byte upper bytes of the SUM over (PREFIX without first byte) + DATA (invalid bytes
+3. byte "03" (seems to only be active if there are no invalid bytes, invalid bytes are 0x01-0x03)
 4. byte "02"
 
 ## running tests ##
-python -m divoom_test
+python -m divoom-test

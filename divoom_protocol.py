@@ -28,17 +28,6 @@ class DivoomAuraBoxProtocol:
 				new_data.append(d)
 		return new_data
 		
-	def replace_invalid_byte(self, data):
-		new_data = []
-		for inv in self.INVALID_BYTES:
-			if (data == inv):
-				new_data.append(0x03)
-				new_data.append(self.replace_byte(inv))
-				break
-		else:
-			new_data.append(data)
-		return new_data
-		
 	def replace_byte(self, data):
 		return (0x03 + data)
 
@@ -52,29 +41,27 @@ class DivoomAuraBoxProtocol:
 		crc = sum(crc_rel)
 		#print ("crc")
 		#print (hex(crc))
-		
 		crc_lowerbytes = crc & 0xFF
 		#print ("crc lowerbytes")
 		#print (hex(crc_lowerbytes))
-		
 		crc_upperbytes = crc >> 8
 		#print ("crc upperbytes")
 		#print (hex(crc_upperbytes))
-		
-		# replace illegal bytes in data
-		data = self.replace_invalid_bytes(data)
+		if (crc_upperbytes in self.INVALID_BYTES):
+			crc_upperbytes = self.replace_byte(crc_upperbytes)
+
+		# check whether "wrong" bytes are contained:
+		contains_invalid = self.contains_invalid_bytes(data)
+		corrected_data = data
+		if contains_invalid:
+			corrected_data = self.replace_invalid_bytes(data)
 		
 		# construct complete package
-		joined_data = self.PREFIX_A + self.PREFIX_B + data
-		
-		# append lower and upper checksum (with invalid bytes)
-		lowerbytes = self.replace_invalid_byte(crc_lowerbytes)
-		joined_data.extend(lowerbytes)
-		
-		upperbytes = self.replace_invalid_byte(crc_upperbytes)
-		joined_data.extend(upperbytes)
-		
-		# end token
+		joined_data = self.PREFIX_A + self.PREFIX_B + corrected_data
+		joined_data.append(crc_lowerbytes)
+		if not contains_invalid: # marker 
+			joined_data.append(0x03)
+		joined_data.append(crc_upperbytes)
 		joined_data.append(0x02)
 		
 		return joined_data
