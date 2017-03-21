@@ -3,11 +3,14 @@ from PIL import Image
 # bmp 16bit palette to divoom palett ...
 # bmp pallett
 # 0 = black
+# 1 = dark red
 # 6 = green
 # 7 = pink
+# 8 = light pink
 # 9 = red
 # 11 = yellow
 # 12 = blue
+# 14 = light blue
 # 15 = white
 
 # divoom palette
@@ -20,7 +23,7 @@ from PIL import Image
 # 6 = light blue
 # 7 = white
 
-REPLACER = {0:0, 6:2, 7:5, 9:1, 11:3, 12:4, 15:7}
+REPLACER = {0:0, 1:1, 6:2, 7:5, 8:5, 9:1, 11:3, 12:4, 14:6, 15:7}
 
 def pretty_print(image):
 	n = 0
