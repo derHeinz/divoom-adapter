@@ -34,23 +34,17 @@ def to_divoom_data(image):
 
 	translated = []
 	for c in image.getdata():
-		#print(str(c) + " replaced by " + str(REPLACER[c]))
 		translated.append(REPLACER[c])
 	result = []
 	# we now have 100 values and need to have 50 bytes
 	for i in range(0,100,2):
-		upper = translated[i] << 4
-		print("upper")
-		print(translated[i])
-		print(upper)
-		lower = translated[i+1]
+		upper = translated[i+1] << 4
+		lower = translated[i]
 		val =  upper + lower
 		result.append(val)
 		
-	print (result)
-		
 	return result
 
-im = Image.open("example.bmp")
-to_divoom_data(im)
-
+def image_to_divoom(iamgename):
+	im = Image.open(iamgename)
+	return to_divoom_data(im)

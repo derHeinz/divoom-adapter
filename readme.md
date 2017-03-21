@@ -14,6 +14,14 @@
 One pixel is represented by half a byte. The lower byte is the the first (left) pixel.
 50 bytes are 100 half bytes. Ordered in rows.
 There are 8 colors: 0-7 where 0 is black and 7 is white.
+0 = black
+1 = red
+2 = green
+3 = yellow
+4 = blue
+5 = pink
+6 = light blue
+7 = white
 red, green, blue, orange, light blue, pink, white, black
 Within this data, the invalid bytes procedure is applied as decribed in the text.
 
@@ -32,3 +40,7 @@ example: original = 0x01 -> corrected 0x03 0x04
 
 ## running tests ##
 python -m divoom_test
+
+## Needed python libraries (install with pip install) ##
+bluepy (bluetooth connection)
+pillow (python image processing)
