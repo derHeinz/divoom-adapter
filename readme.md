@@ -14,6 +14,7 @@
 One pixel is represented by half a byte. The lower byte is the the first (left) pixel.
 50 bytes are 100 half bytes. Ordered in rows.
 There are 8 colors: 0-7 where 0 is black and 7 is white.
+red, green, blue, orange, light blue, pink, white, black
 Within this data, the invalid bytes procedure is applied as decribed in the text.
 
 #### invalid bytes ####
