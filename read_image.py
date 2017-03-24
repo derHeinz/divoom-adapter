@@ -23,7 +23,7 @@ from PIL import Image
 # 6 = light blue
 # 7 = white
 
-REPLACER = {0:0, 1:1, 6:2, 7:5, 8:5, 9:1, 11:3, 12:4, 14:6, 15:7}
+REPLACER = {0:0, 1:1, 6:2, 7:5, 8:5, 9:1, 10:3, 11:3, 12:4, 14:6, 15:7}
 
 def pretty_print(image):
 	n = 0
