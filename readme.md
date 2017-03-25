@@ -1,6 +1,18 @@
 # Code to communicate with divoom devices like Aurabox. #
 
-## Sending pictures to divoom devices ##
+## features ##
+* Show time
+* Show temperature
+* Send image
+* Send animation loops
+
+## Show time ##
+Following static byte array can be sent to show time: 01 04 00 45 00 49 00 02
+
+## Show temperature ##
+Following static byte array can be sent to show time: 01 04 00 45 03 04 4a 00 02
+
+## Sending image ##
 
 ### Protocol typical 62 bytes ####
 8 bytes PREFIX
@@ -38,9 +50,17 @@ example: original = 0x01 -> corrected 0x03 0x04
 2. byte upper byte of the SUM over (PREFIX without first byte) + DATA (invalid bytes error correction applies here - so these may be two bytes)
 4. byte "02"
 
+## Send animation loops ##
+Very similar to sending simple images. You just send several packages containing each single images with slightly different header.
+However the prefix changes slightly.
+The static part looks like this: 3b 00 49 00 0a 0a 04
+The next byte is the number of the image in the animation starting with 0. Note that invalid bytes error correction applies here - so there may be two bytes.
+The following byte is the time each single image is shown, smaller number means faster.
+
 ## running tests ##
 python -m divoom_test
 
 ## Needed python libraries (install with pip install) ##
 bluepy (bluetooth connection)
 pillow (python image processing)
+
