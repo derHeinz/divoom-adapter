@@ -203,5 +203,10 @@ class TestDivoomAuraBox(unittest.TestCase):
 		test_package = self.testee.create_time_package()
 		self.assertEqual(test_package, [0x01, 0x04, 0x00, 0x45, 0x00, 0x49, 0x00, 0x02])
 		
+	def test_ttemp(self):
+		test_package = self.testee.create_temp_package()
+		self.assertEqual(test_package, [0x01,0x04,0x00,0x45,0x03,0x04,0x4a,0x00,0x02])
+
+		
 if __name__ == '__main__':
 	unittest.main()

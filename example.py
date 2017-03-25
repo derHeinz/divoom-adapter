@@ -60,6 +60,11 @@ files = ["images/example.bmp", "images/example2.bmp", "images/example3.bmp", "im
 show_files(files)
 
 blink("images/example7.bmp")
+dev.send(thing.create_time_package())
+time.sleep(10)
+dev.send(thing.create_temp_package())
+time.sleep(10)
 firework_predefined()
+
 
 dev.disconnect()
