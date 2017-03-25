@@ -166,5 +166,29 @@ class TestDivoomAuraBox(unittest.TestCase):
 		self.assertEqual(test_package[-3], 0x03)
 		self.assertEqual(test_package[-2], 0x04)
 		
+	def test_checkanimation(self):
+		datas = [self.read_bytes("check11"), self.read_bytes("check12")]
+		test_packages = self.testee.create_animation_packages(datas)
+		
+		# check size
+		self.assertEqual(2, len(test_packages))
+		
+		# check package 1 prefix
+		self.assertEqual(test_packages[0][1], 0x3b)
+		self.assertEqual(test_packages[0][3], 0x49)
+		
+		# check package2 prefix
+		self.assertEqual(test_packages[1][1], 0x3b)
+		self.assertEqual(test_packages[1][3], 0x49)
+
+		# check package1 numbering
+		self.assertEqual(test_packages[0][7], 0x00)
+		
+		# check package 2 numbering (incl. invalid byte check)
+		self.assertEqual(test_packages[1][7], 0x03)
+		self.assertEqual(test_packages[1][8], 0x04)
+		
+		
+		
 if __name__ == '__main__':
 	unittest.main()

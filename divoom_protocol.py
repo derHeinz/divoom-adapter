@@ -51,12 +51,12 @@ class DivoomAuraBoxProtocol:
 		
 	def create_animation_packages(self, data_array):
 		result = []
-		for i in range(1, len(data_array)):
-			function = ANIMATION
-			function = function.append(i)
+		for i in range(0, len(data_array)):
+			function = []
+			function.extend(self.ANIMATION)
+			function.append(i)
 			single_package = self.create_package(function, data_array[i])
 			result.append(single_package)
-		
 		return result
 		
 	def create_image_package(self, data):
