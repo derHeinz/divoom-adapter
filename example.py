@@ -34,6 +34,19 @@ def firework():
 		firework_files.append(basename + str(n) + ".bmp")
 	firework_files.append("images/black.bmp")
 	show_files(firework_files, 0.3)
+	
+def firework_predefined():
+	basename = "images/firework"
+	firework_files = []
+	for n in range(1,9):
+		firework_files.append(basename + str(n) + ".bmp")
+	raw_data_packages = []
+	for f in firework_files:
+		bytes = read_image.image_to_divoom(f)
+		raw_data_packages.append(bytes)
+	pkgs = thing.create_animation_packages(raw_data_packages, 0)
+	for i in range(0, len(pkgs)):
+		dev.send(pkgs[i])
 
 DIVOMM_ADR = sys.argv[1]
 thing = divoom_protocol.DivoomAuraBoxProtocol()
@@ -41,10 +54,12 @@ dev = divoom_device.DivoomDevice(DIVOMM_ADR)
 
 dev.connect()
 
+firework()
+
 files = ["images/example.bmp", "images/example2.bmp", "images/example3.bmp", "images/example4.bmp", "images/example5.bmp", "images/example6.bmp", "images/example7.bmp", "images/example8.bmp", "images/example9.bmp"]
 show_files(files)
 
 blink("images/example7.bmp")
-firework()
+firework_predefined()
 
 dev.disconnect()
