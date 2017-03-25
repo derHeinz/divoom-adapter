@@ -11,7 +11,7 @@ import bluetooth
 def show_files(filelist, delay=1):
 	for f in filelist:
 		bytes = read_image.image_to_divoom(f)
-		pkg = thing.create_package(bytes)
+		pkg = thing.create_image_package(bytes)
 		dev.send(pkg)
 		time.sleep(delay)
 
@@ -23,7 +23,7 @@ def blink(filename):
 		else:
 			f = "images/black.bmp"
 		bytes = read_image.image_to_divoom(f)
-		pkg = thing.create_package(bytes)
+		pkg = thing.create_image_package(bytes)
 		dev.send(pkg)
 		time.sleep(0.5)
 
