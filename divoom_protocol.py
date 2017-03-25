@@ -1,7 +1,7 @@
 import math
 
 class DivoomAuraBoxProtocol:
-	""" creates pattern for divoom aurabox """
+	"""Creates pattern for divoom aurabox."""
 	
 	# static values begin and end of protocol
 	PREFIX = 0x01
@@ -50,6 +50,7 @@ class DivoomAuraBoxProtocol:
 		return (self.INVALID_BYTE_PREFIX + data)
 		
 	def create_animation_packages(self, data_array, time_length=0x05):
+		"""Creates package for predefined animated data that will run unlimited."""
 		result = []
 		for i in range(0, len(data_array)):
 			function = []
@@ -61,9 +62,11 @@ class DivoomAuraBoxProtocol:
 		return result
 		
 	def create_time_package(self):
+		"""Creates package to let the thing show the current time."""
 		return [0x01, 0x04, 0x00, 0x45, 0x00, 0x49, 0x00, 0x02]
 		
 	def create_image_package(self, data):
+		"""Creates package show a single image."""
 		return self.create_package(self.SINGLE_IMAGE, data)
 		
 	def create_package(self, function_prefix, data):
