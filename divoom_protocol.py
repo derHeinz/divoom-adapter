@@ -8,7 +8,7 @@ class DivoomAuraBoxProtocol:
 	POSTFIX = 0x02
 	
 	SINGLE_IMAGE = [0x39, 0x00, 0x44, 0x00, 0x0a, 0x0a, 0x04] # single image function
-	ANIMATION = [0x3b, 0x00, 0x49, 0x00, 0x0a, 0x0a] # followed by 1-2 bytes of number (invalid byte replacement)
+	ANIMATION = [0x3b, 0x00, 0x49, 0x00, 0x0a, 0x0a, 0x04] # followed by 1-2 bytes of number (invalid byte replacement)
 	
 	# invalid byte processing
 	INVALID_BYTES = [0x01, 0x02, 0x03]
@@ -49,15 +49,19 @@ class DivoomAuraBoxProtocol:
 	def replace_byte(self, data):
 		return (self.INVALID_BYTE_PREFIX + data)
 		
-	def create_animation_packages(self, data_array):
+	def create_animation_packages(self, data_array, time_length=0x05):
 		result = []
 		for i in range(0, len(data_array)):
 			function = []
 			function.extend(self.ANIMATION)
 			function.append(i)
+			function.append(time_length)
 			single_package = self.create_package(function, data_array[i])
 			result.append(single_package)
 		return result
+		
+	def create_time_package(self):
+		return [0x01, 0x04, 0x00, 0x45, 0x00, 0x49, 0x00, 0x02]
 		
 	def create_image_package(self, data):
 		return self.create_package(self.SINGLE_IMAGE, data)
@@ -66,9 +70,6 @@ class DivoomAuraBoxProtocol:
 		# check data has excactly 50 bytes
 		if (len(data) != 50):
 			raise Exception('given data has invalid size: ' + str(len(data)))
-	
-		if (len(function_prefix) != 7):
-			raise Exception('given function has invalid size: ' + str(len(function_prefix)))
 	
 		# crc calculation
 		crc_rel = function_prefix + data
