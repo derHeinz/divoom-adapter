@@ -1,6 +1,6 @@
 # Code to communicate with divoom devices like Aurabox. #
 
-## features ##
+## Features ##
 * Show time
 * Show temperature
 * Send image
@@ -37,7 +37,7 @@ There are 8 colors: 0-7 where 0 is black and 7 is white.
 red, green, blue, orange, light blue, pink, white, black
 Within this data, the invalid bytes procedure is applied as decribed in the text.
 
-#### invalid bytes ####
+#### Invalid bytes ####
 If some data contains invalid bytes they are masked.
 invalid bytes are 0x01, 0x02 and 0x03.
 masking procedure is: 
@@ -57,7 +57,7 @@ The static part looks like this: 3b 00 49 00 0a 0a 04
 The next byte is the number of the image in the animation starting with 0. Note that invalid bytes error correction applies here - so there may be two bytes.
 The following byte is the time each single image is shown, smaller number means faster.
 
-## running tests ##
+## Running tests ##
 python -m divoom_test
 
 ## Needed python libraries (install with pip install) ##
