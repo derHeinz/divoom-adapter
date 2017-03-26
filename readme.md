@@ -5,6 +5,8 @@
 * Show temperature
 * Send image
 * Send animation loops
+* Scrolling of images
+* Create text image
 
 ## Show time ##
 Following static byte array can be sent to show time: 01 04 00 45 00 49 00 02
@@ -56,6 +58,16 @@ However the prefix changes slightly.
 The static part looks like this: 3b 00 49 00 0a 0a 04
 The next byte is the number of the image in the animation starting with 0. Note that invalid bytes error correction applies here - so there may be two bytes.
 The following byte is the time each single image is shown, smaller number means faster.
+
+## Scrolling of images ##
+Allows to send images wider than the box can display and scroll them running to the left.
+
+## Create text image ##
+Write text into an image that suits to be displayed as single image or via the scoll functionality.
+
+Font used here: http://kottke.org/plus/type/silkscreen/
+Created open format using: otf2bdf -p 8 -r 72 -o slkscr.bdf slkscr.ttf
+Created PIL like format using: pilfont.py slkscr.bdf
 
 ## Running tests ##
 python -m divoom_test
