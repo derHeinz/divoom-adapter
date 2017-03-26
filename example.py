@@ -2,15 +2,16 @@
 import divoom_protocol
 #from divoomadapter import divoom_device
 import divoom_device
-#from divoomadapter import read_image
-import read_image
+#from divoomadapter import divoom__image
+import divoom__image
+
 import time
 import sys
 import bluetooth
 
 def show_files(filelist, delay=1):
 	for f in filelist:
-		bytes = read_image.image_to_divoom(f)
+		bytes = divoom__image.image_to_divoom(f)
 		pkg = thing.create_image_package(bytes)
 		dev.send(pkg)
 		time.sleep(delay)
@@ -22,7 +23,7 @@ def blink(filename):
 			f = filename
 		else:
 			f = "images/black.bmp"
-		bytes = read_image.image_to_divoom(f)
+		bytes = divoom__image.image_to_divoom(f)
 		pkg = thing.create_image_package(bytes)
 		dev.send(pkg)
 		time.sleep(0.5)
@@ -42,7 +43,7 @@ def firework_predefined():
 		firework_files.append(basename + str(n) + ".bmp")
 	raw_data_packages = []
 	for f in firework_files:
-		bytes = read_image.image_to_divoom(f)
+		bytes = divoom__image.image_to_divoom(f)
 		raw_data_packages.append(bytes)
 	pkgs = thing.create_animation_packages(raw_data_packages, 0)
 	for i in range(0, len(pkgs)):

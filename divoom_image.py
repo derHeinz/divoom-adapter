@@ -1,19 +1,23 @@
 from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
 import math
 import os
+import sys
 
 # bmp 16bit palette to divoom palett ...
 # bmp pallett
-# 0 = black
+BLACK = 0
 # 1 = dark red
-# 6 = green
-# 7 = pink
+GREEN = 6
+PINK = 7
 # 8 = light pink
-# 9 = red
-# 11 = yellow
-# 12 = blue
-# 14 = light blue
-# 15 = white
+RED = 9
+# 10 another yellow
+YELLOW = 11
+BLUE = 12
+LIGHT_BLUE = 14
+WHITE = 15
 
 # divoom palette
 # 0 = black
@@ -25,7 +29,7 @@ import os
 # 6 = light blue
 # 7 = white
 
-REPLACER = {0:0, 1:1, 6:2, 7:5, 8:5, 9:1, 10:3, 11:3, 12:4, 14:6, 15:7}
+REPLACER = {BLACK:0, 1:1, GREEN:2, PINK:5, 8:5, RED:1, 10:3, YELLOW:3, BLUE:4, LIGHT_BLUE:6, WHITE:7}
 
 def pretty_print(image):
 	n = 0
@@ -68,6 +72,16 @@ def horizontal_slices(image, slice_size=10):
 def image_horizontal_slices(image_path, slice_size=10):
 	img = Image.open(image_path)
 	return horizontal_slices(img, slice_size)
-	
 
+def draw_text_to_image(text, color=RED, width=40):
+	# make use of the black image to copy the palette over
+	proto = Image.open("images/black.bmp")
+	im = Image.new("P", (width,10))
+	im.putpalette(proto.palette.getdata()[1])
+	del proto
+	draw = ImageDraw.Draw(im)
+	fn = ImageFont.load('fonts/slkscr.pil')
+	draw.text((0,0), text, font=fn, fill=color)
+	del draw
+	return im
 
