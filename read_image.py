@@ -1,4 +1,6 @@
 from PIL import Image
+import math
+import os
 
 # bmp 16bit palette to divoom palett ...
 # bmp pallett
@@ -31,9 +33,9 @@ def pretty_print(image):
 		n=n+1
 		print ("number" + str(n))
 		print ("color" + str(c))
-
+		
 def to_divoom_data(image):
-	# check image is 10x10
+	# TODO check image is 10x10
 
 	translated = []
 	for c in image.getdata():
@@ -51,3 +53,21 @@ def to_divoom_data(image):
 def image_to_divoom(iamgename):
 	im = Image.open(iamgename)
 	return to_divoom_data(im)
+	
+def horizontal_slices(image, slice_size=10):
+	width, height = image.size
+	slices = width - slice_size
+	result_images = []
+	
+	for slice in range(slices):
+		new_box = (slice, 0, slice+slice_size, height)
+		new_img = image.crop(new_box)
+		result_images.append(new_img)
+	return result_images
+	
+def image_horizontal_slices(image_path, slice_size=10):
+	img = Image.open(image_path)
+	return horizontal_slices(img, slice_size)
+	
+
+
