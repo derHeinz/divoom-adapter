@@ -75,13 +75,12 @@ def image_horizontal_slices(image_path, slice_size=10):
 
 def draw_text_to_image(text, color=RED, width=40):
 	# make use of the black image to copy the palette over
-	proto = Image.open("images/black.bmp")
+	proto = Image.open(os.path.join(os.path.dirname(__file__), "images/black.bmp"))
 	im = Image.new("P", (width,10))
 	im.putpalette(proto.palette.getdata()[1])
 	del proto
 	draw = ImageDraw.Draw(im)
-	fn = ImageFont.load('fonts/slkscr.pil')
+	fn = ImageFont.load(os.path.join(os.path.dirname(__file__),'fonts/slkscr.pil'))
 	draw.text((0,0), text, font=fn, fill=color)
 	del draw
 	return im
-
