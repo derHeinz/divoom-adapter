@@ -3,7 +3,7 @@ import divoom_protocol
 #from divoomadapter import divoom_device
 import divoom_device
 #from divoomadapter import divoom__image
-import divoom__image
+import divoom_image
 
 import time
 import sys
@@ -11,7 +11,7 @@ import bluetooth
 
 def show_files(filelist, delay=1):
 	for f in filelist:
-		bytes = divoom__image.image_to_divoom(f)
+		bytes = divoom_image.image_to_divoom(f)
 		pkg = thing.create_image_package(bytes)
 		dev.send(pkg)
 		time.sleep(delay)
@@ -23,7 +23,7 @@ def blink(filename):
 			f = filename
 		else:
 			f = "images/black.bmp"
-		bytes = divoom__image.image_to_divoom(f)
+		bytes = divoom_image.image_to_divoom(f)
 		pkg = thing.create_image_package(bytes)
 		dev.send(pkg)
 		time.sleep(0.5)
@@ -43,11 +43,24 @@ def firework_predefined():
 		firework_files.append(basename + str(n) + ".bmp")
 	raw_data_packages = []
 	for f in firework_files:
-		bytes = divoom__image.image_to_divoom(f)
+		bytes = divoom_image.image_to_divoom(f)
 		raw_data_packages.append(bytes)
 	pkgs = thing.create_animation_packages(raw_data_packages, 0)
 	for i in range(0, len(pkgs)):
 		dev.send(pkgs[i])
+		
+def hello_world():
+	img = divoom_image.draw_text_to_image(text="HELLO WORLD", color=divoom_image.YELLOW, width=70)
+	sliced_images = divoom_image.horizontal_slices(img)
+	# create divoom packages
+	raw_data_packages = []
+	for img in sliced_images:
+		raw_data_packages.append(divoom_image.to_divoom_data(img))
+	# create BT divoom packages
+	pkgs = thing.create_animation_packages(raw_data_packages, 1)
+	for i in range(0, len(pkgs)):
+		dev.send(pkgs[i])
+
 
 DIVOMM_ADR = sys.argv[1]
 thing = divoom_protocol.DivoomAuraBoxProtocol()
@@ -65,7 +78,8 @@ dev.send(thing.create_time_package())
 time.sleep(10)
 dev.send(thing.create_temp_package())
 time.sleep(10)
+hello_world()
+time.sleep(20)
 firework_predefined()
-
 
 dev.disconnect()
