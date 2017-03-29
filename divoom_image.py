@@ -73,9 +73,9 @@ def to_divoom_data(image):
 		
 	return result
 
-def image_to_divoom(iamgename):
+def image_to_divoom(imagename):
 	'''Gets a path to a .bmp and returns divoom raw data.'''
-	im = Image.open(iamgename)
+	im = Image.open(imagename)
 	return to_divoom_data(im)
 	
 def divoom_to_image(data):
