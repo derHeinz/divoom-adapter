@@ -1,7 +1,7 @@
 import unittest
 import divoom_protocol
 
-class TestDivoomAuraBox(unittest.TestCase):
+class TestDivoomAuraBoxProtocol(unittest.TestCase):
 
 	TESTDATA_DIR = "testdata/"
 

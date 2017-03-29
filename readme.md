@@ -70,9 +70,9 @@ Created open format using: otf2bdf -p 8 -r 72 -o slkscr.bdf slkscr.ttf
 Created PIL like format using: pilfont.py slkscr.bdf
 
 ## Running tests ##
-python -m divoom_test
+python -m divoom_protocol_test
+python -m divoom_image_test
 
 ## Needed python libraries (install with pip install) ##
 bluepy (bluetooth connection)
 pillow (python image processing)
-
