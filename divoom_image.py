@@ -133,15 +133,7 @@ def _slices(image, way=1, slice_size=10):
 	
 def horizontal_slices(image, slice_size=10):
 	'''Create 10x10 images from a bigger image e.g. 10x40.'''
-	width, height = image.size
-	slices = width - slice_size
-	result_images = []
-	
-	for slice in range(slices):
-		new_box = (slice, 0, slice+slice_size, height)
-		new_img = image.crop(new_box)
-		result_images.append(new_img)
-	return result_images
+	return _slices(image=image, way=1, slice_size=slice_size)
 	
 def image_horizontal_slices(image_path, slice_size=10):
 	'''Create 10x10 images from a bigger image given as path.'''
