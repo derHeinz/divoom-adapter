@@ -131,6 +131,40 @@ def _slices(image, way=1, slice_size=10):
 		
 	return result_images
 	
+# ways
+# 1 horizontal from left to right
+# 2 vertical from upper to lower
+# 3 horizontal from right to left
+# 4 vertical from lower to upper
+def scroll_between(old_img, new_img, way=1):
+	'''Does a scroll between the old and the new image and returns all images in between.'''
+	img = None
+	if (way == 1):
+		img = concatenate(old_img, new_img, 1)
+	elif (way == 2):
+		img = concatenate(old_img, new_img, 2)
+	elif (way == 3):
+		img = concatenate(new_img, old_img, 1)
+	elif (way == 4):
+		img = concatenate(new_img, old_img, 2)	
+	sliced_images = _slices(img, way)
+	sliced_images.append(new_img)
+	return sliced_images
+	
+def concatenate(image1, image2, way=1):
+	'''Concatenates the sencond image to the first'''
+	if (way == 1):
+		result_img = create_default_image((20, 10))
+		result_img.paste(image1, (0, 0))
+		result_img.paste(image2, (10, 0))
+	if (way == 2):
+		result_img = create_default_image((10, 20))
+		result_img.paste(image1, (0, 0))
+		result_img.paste(image2, (0, 10))
+	return result_img
+	
+
+	
 def horizontal_slices(image, slice_size=10):
 	'''Create 10x10 images from a bigger image e.g. 10x40.'''
 	return _slices(image=image, way=1, slice_size=slice_size)
