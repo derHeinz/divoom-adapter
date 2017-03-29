@@ -91,6 +91,46 @@ def divoom_to_image(data):
 	im.putdata(img_data)
 	return im
 	
+# way:
+# 1 horizontal from left to right
+# 2 vertical from upper to lower
+# 3 horizontal from right to left
+# 4 vertical from lower to upper
+def _slices(image, way=1, slice_size=10):
+	'''Create 10x10 images from a bigger image e.g. 10x40.'''
+	width, height = image.size
+	# calculate slice size:
+	slices = 1
+	if (way == 1) or (way == 3):
+		slices = width - slice_size
+	elif (way == 2)  or (way == 4):
+		slices = height - slice_size
+	
+	result_images = []
+	
+	if (way == 1):
+		for slice in range(slices):
+			new_box = (slice, 0, slice+slice_size, height)
+			new_img = image.crop(new_box)
+			result_images.append(new_img)
+	elif (way == 2):
+		for slice in range(slices):
+			new_box = (0, slice, width, slice+slice_size)
+			new_img = image.crop(new_box)
+			result_images.append(new_img)
+	elif (way == 3):
+		for slice in range(slices,-1,-1):
+			new_box = (slice, 0, slice+slice_size, height)
+			new_img = image.crop(new_box)
+			result_images.append(new_img)
+	elif (way == 4):
+		for slice in range(slices,-1,-1):
+			new_box = (0, slice, width, slice+slice_size)
+			new_img = image.crop(new_box)
+			result_images.append(new_img)
+		
+	return result_images
+	
 def horizontal_slices(image, slice_size=10):
 	'''Create 10x10 images from a bigger image e.g. 10x40.'''
 	width, height = image.size
@@ -108,17 +148,17 @@ def image_horizontal_slices(image_path, slice_size=10):
 	img = Image.open(image_path)
 	return horizontal_slices(img, slice_size)
 	
-def create_default_image(width):
+def create_default_image(size):
 	'''Create an image with the correct palette'''
 	# make use of the black image to copy the palette over
 	proto = Image.open(os.path.join(os.path.dirname(__file__), "images/black.bmp"))
-	im = Image.new("P", (width,10))
+	im = Image.new("P", size)
 	im.putpalette(proto.palette.getdata()[1])
 	return im
 
-def draw_text_to_image(text, color=RED, width=40):
+def draw_text_to_image(text, color=RED, size=(40,10)):
 	'''Draws the string in given color to an image and returns this iamge'''
-	im = self.create_default_image(width)
+	im = create_default_image(size)
 	draw = ImageDraw.Draw(im)
 	fn = ImageFont.load(os.path.join(os.path.dirname(__file__),'fonts/slkscr.pil'))
 	draw.text((0,0), text, font=fn, fill=color)
