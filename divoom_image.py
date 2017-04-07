@@ -80,7 +80,7 @@ def image_to_divoom(imagename):
 	
 def divoom_to_image(data):
 	'''Given divoom raw data reeturns an image from this.'''
-	im = create_default_image(10)
+	im = create_default_image((10,10))
 	
 	img_data = []
 	for d in data:
