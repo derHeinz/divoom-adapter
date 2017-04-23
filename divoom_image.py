@@ -7,17 +7,19 @@ import sys
 
 # bmp 16bit palette to divoom palett ...
 # bmp pallett
-BLACK = 0
-# 1 = dark red
-GREEN = 6
-PINK = 7
-# 8 = light pink
-RED = 9
-# 10 another yellow
-YELLOW = 11
-BLUE = 12
-LIGHT_BLUE = 14
-WHITE = 15
+BMP_BLACK = 0
+BMP_DARK_RED = 1
+BMP_DARK_GREEN = 2
+BMP_YELLOW_OCHRE = 3
+BMP_GREEN = 6
+BMP_PINK = 7
+BMP_LIGHT_PINK = 8
+BMP_RED = 9
+BMP_ANOTHER_GREEN = 10
+BMP_YELLOW = 11
+BMP_BLUE = 12
+BMP_LIGHT_BLUE = 14
+BMP_WHITE = 15
 
 # divoom palette
 # 0 = black
@@ -29,7 +31,7 @@ WHITE = 15
 # 6 = light blue
 # 7 = white
 
-REPLACER = {BLACK:0, GREEN:2, PINK:5, 8:5, RED:1, 1:1, 10:3, YELLOW:3, BLUE:4, LIGHT_BLUE:6, WHITE:7}
+REPLACER = {BMP_DARK_GREEN:2, BMP_BLACK:0, BMP_YELLOW_OCHRE:11, 5:5, BMP_GREEN:2, BMP_PINK:5, BMP_LIGHT_PINK:5, BMP_RED:1, BMP_DARK_RED:1, BMP_ANOTHER_GREEN:2, BMP_YELLOW:3, BMP_BLUE:4, BMP_LIGHT_BLUE:6, BMP_WHITE:7}
 
 def pretty_print(image):
 	n = 0
@@ -182,7 +184,7 @@ def create_default_image(size):
 	im.putpalette(proto.palette.getdata()[1])
 	return im
 
-def draw_text_to_image(text, color=RED, size=(40,10)):
+def draw_text_to_image(text, color=BMP_RED, size=(40,10)):
 	'''Draws the string in given color to an image and returns this iamge'''
 	im = create_default_image(size)
 	draw = ImageDraw.Draw(im)

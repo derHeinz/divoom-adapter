@@ -7,15 +7,15 @@ class TestDivoomAuraBoxImage(unittest.TestCase):
 	TESTDATA_DIR = "images/"
 	
 	def test_to_and_from(self):
-		val = divoom_image.to_(7, 0)
-		self.assertEquals((7, 0), divoom_image.from_(val))
+		val = divoom_image.to_(2, 0)
+		self.assertEquals((2, 0), divoom_image.from_(val))
 		
-		val = divoom_image.to_(1, 6)
-		self.assertEquals((1, 6), divoom_image.from_(val))
+		val = divoom_image.to_(1, 5)
+		self.assertEquals((1, 5), divoom_image.from_(val))
 		
 		# this one is not excatly correct but a similar color
 		val = divoom_image.to_(11, 8)
-		self.assertEquals((10, 7), divoom_image.from_(val))
+		self.assertEquals((11, 5), divoom_image.from_(val))
 
 	def test_image_and_back_black(self):
 		img = Image.open(self.TESTDATA_DIR + "black.bmp")
