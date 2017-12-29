@@ -51,7 +51,7 @@ def firework_predefined():
 		dev.send(pkgs[i])
 		
 def hello_world():
-	img = divoom_image.draw_text_to_image(text="HELLO WORLD", color=divoom_image.YELLOW, size=(70, 10))
+	img = divoom_image.draw_text_to_image(text="HELLO WORLD", color=divoom_image.BMP_YELLOW, size=(70, 10))
 	sliced_images = divoom_image.horizontal_slices(img)
 	# create divoom packages
 	raw_data_packages = []
