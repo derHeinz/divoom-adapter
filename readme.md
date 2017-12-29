@@ -33,16 +33,15 @@ Following static byte array can be sent to temperature time: 01 04 00 45 03 04 4
 One pixel is represented by half a byte. The lower byte is the the first (left) pixel.
 50 bytes are 100 half bytes. Ordered in rows.
 There are 8 colors: 0-7 where 0 is black and 7 is white.
-0 = black
-1 = red
-2 = green
-3 = yellow
-4 = blue
-5 = pink
-6 = light blue
-7 = white
-red, green, blue, orange, light blue, pink, white, black
-Within this data, the invalid bytes procedure is applied as decribed in the text.
+* 0 = black
+* 1 = red
+* 2 = green
+* 3 = yellow
+* 4 = blue
+* 5 = pink
+* 6 = light blue
+* 7 = white
+* Within this data, the invalid bytes procedure is applied as decribed in the text.
 
 #### Invalid bytes ####
 If some data contains invalid bytes they are masked.
@@ -75,9 +74,9 @@ Created open format using: otf2bdf -p 8 -r 72 -o slkscr.bdf slkscr.ttf
 Created PIL like format using: pilfont.py slkscr.bdf
 
 ## Running tests ##
-python -m divoom_protocol_test
-python -m divoom_image_test
+* python -m divoom_protocol_test
+* python -m divoom_image_test
 
 ## Needed python libraries (install with pip install) ##
-pybluez (bluetooth connection) you probably need to install other things: sudo apt-get install libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev
-pillow (python image processing)
+* pybluez (bluetooth connection) you probably need to install other things: sudo apt-get install libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev
+* pillow (python image processing)
