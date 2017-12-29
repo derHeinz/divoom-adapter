@@ -83,7 +83,7 @@ class DivoomAuraBoxProtocol:
 		# check data has excactly 50 bytes
 		if (len(data) != 50):
 			raise Exception('given data has invalid size: ' + str(len(data)))
-		self.create_package(function_prefix, data)
+		return self.create_package(function_prefix, data)
 		
 	def create_package(self, function_prefix, data):	
 		# crc calculation

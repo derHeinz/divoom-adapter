@@ -52,7 +52,6 @@ class TestDivoomAuraBoxProtocol(unittest.TestCase):
 		self.assertEqual(self.testee.replace_invalid_bytes([2, 3, 7]), [3, 5, 3, 6, 7])
 		self.assertEqual(self.testee.replace_invalid_bytes([2, 7]), [3, 5, 7])
 		self.assertEqual(self.testee.replace_invalid_bytes([3]), [3, 6])
-
 		
 	def test_front_bytes(self):
 		data = self.read_bytes("crc2")
@@ -203,7 +202,7 @@ class TestDivoomAuraBoxProtocol(unittest.TestCase):
 		test_package = self.testee.create_time_package()
 		self.assertEqual(test_package, [0x01, 0x04, 0x00, 0x45, 0x00, 0x49, 0x00, 0x02])
 		
-	def test_ttemp(self):
+	def test_temp(self):
 		test_package = self.testee.create_temp_package()
 		self.assertEqual(test_package, [0x01,0x04,0x00,0x45,0x03,0x04,0x4a,0x00,0x02])
 
