@@ -57,7 +57,7 @@ class DivoomAuraBoxProtocol:
 			function.extend(self.ANIMATION)
 			function.append(i)
 			function.append(time_length)
-			single_package = self.create_package(function, data_array[i])
+			single_package = self.create_package_for_image(function, data_array[i])
 			result.append(single_package)
 		return result
 		
@@ -69,15 +69,23 @@ class DivoomAuraBoxProtocol:
 		"""Creates package to let the thing show the current temperature."""
 		return [0x01,0x04,0x00,0x45,0x03,0x04,0x4a,0x00,0x02]
 		
+	def create_set_time_package(self, hours, minutes):
+		function = [0x0b, 0x00, 0x18, 0x11, 0x14, 0x0b, 0x1c]
+		time = [hours, minutes]
+		post = [5, 5]
+		return self.create_package(function, time + post)
+	
 	def create_image_package(self, data):
 		"""Creates package show a single image."""
-		return self.create_package(self.SINGLE_IMAGE, data)
+		return self.create_package_for_image(self.SINGLE_IMAGE, data)
 		
-	def create_package(self, function_prefix, data):
+	def create_package_for_image(self, function_prefix, data):
 		# check data has excactly 50 bytes
 		if (len(data) != 50):
 			raise Exception('given data has invalid size: ' + str(len(data)))
-	
+		self.create_package(function_prefix, data)
+		
+	def create_package(self, function_prefix, data):	
 		# crc calculation
 		crc_rel = function_prefix + data
 		crc = sum(crc_rel)

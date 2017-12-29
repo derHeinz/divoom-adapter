@@ -2,6 +2,7 @@
 
 ## Features ##
 * Show time
+* Set time
 * Show temperature
 * Send image
 * Send animation loops
@@ -11,8 +12,12 @@
 ## Show time ##
 Following static byte array can be sent to show time: 01 04 00 45 00 49 00 02
 
+## Set time ##
+Following bytes can be sent to set the time. Postfix and Invalid bytes applies here.
+01 0b 00 18 11 14 0b 1c <hour> <minute> 05 05 POSTFIX
+
 ## Show temperature ##
-Following static byte array can be sent to show time: 01 04 00 45 03 04 4a 00 02
+Following static byte array can be sent to temperature time: 01 04 00 45 03 04 4a 00 02
 
 ## Sending image ##
 
@@ -74,5 +79,5 @@ python -m divoom_protocol_test
 python -m divoom_image_test
 
 ## Needed python libraries (install with pip install) ##
-bluepy (bluetooth connection)
+pybluez (bluetooth connection) you probably need to install other things: sudo apt-get install libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev
 pillow (python image processing)
