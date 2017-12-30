@@ -205,7 +205,18 @@ class TestDivoomAuraBoxProtocol(unittest.TestCase):
 	def test_temp(self):
 		test_package = self.testee.create_temp_package()
 		self.assertEqual(test_package, [0x01,0x04,0x00,0x45,0x03,0x04,0x4a,0x00,0x02])
+		
+	def test_create_set_time_package(self):
+		func = [0x0b, 0x00, 0x18, 0x11, 0x14, 0x0b, 0x1c]
+		package_assert = [1] + func + [11, 30, 59] + [0x05, 0xd8] + [0x00,0x02]
+		
+		# check with ints
+		test_package = self.testee.create_set_time_package(11, 30, 59)
+		self.assertEqual(test_package, package_assert)
 
+		# check with strings
+		test_package = self.testee.create_set_time_package("11", "30", "59")
+		self.assertEqual(test_package, package_assert)
 		
 if __name__ == '__main__':
 	unittest.main()

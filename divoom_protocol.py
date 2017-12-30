@@ -69,11 +69,10 @@ class DivoomAuraBoxProtocol:
 		"""Creates package to let the thing show the current temperature."""
 		return [0x01,0x04,0x00,0x45,0x03,0x04,0x4a,0x00,0x02]
 		
-	def create_set_time_package(self, hours, minutes):
+	def create_set_time_package(self, hours, minutes, seconds):
 		function = [0x0b, 0x00, 0x18, 0x11, 0x14, 0x0b, 0x1c]
-		time = [int(hours), int(minutes)]
-		post = [5, 5]
-		return self.create_package(function, time + post)
+		time = [int(hours), int(minutes), int(seconds), 5]
+		return self.create_package(function, time)
 	
 	def create_image_package(self, data):
 		"""Creates package show a single image."""
