@@ -71,7 +71,7 @@ class DivoomAuraBoxProtocol:
 		
 	def create_set_time_package(self, hours, minutes):
 		function = [0x0b, 0x00, 0x18, 0x11, 0x14, 0x0b, 0x1c]
-		time = [hours, minutes]
+		time = [int(hours), int(minutes)]
 		post = [5, 5]
 		return self.create_package(function, time + post)
 	
