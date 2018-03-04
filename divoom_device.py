@@ -1,7 +1,7 @@
 import bluetooth
 
 class DivoomDevice:
-	
+
 	def __init__(self, addr):
 		self.sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
 		self.addr = addr
@@ -13,4 +13,4 @@ class DivoomDevice:
 		self.sock.close()
 
 	def send(self, package):
-		self.sock.send(str(bytearray(package)))
+		self.sock.send(bytes(package))
