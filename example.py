@@ -8,7 +8,11 @@ import divoom_image
 from PIL import Image
 import time
 import sys
+import os
 import bluetooth
+
+def imagename(name):
+	return os.path.join(os.path.dirname(__file__), "images", name)
 
 def show_files(filelist, delay=1):
 	for f in filelist:
@@ -23,22 +27,22 @@ def blink(filename):
 		if (c % 2 == 0):
 			f = filename
 		else:
-			f = "images/black.bmp"
+			f = imagename("black.bmp")
 		bytes = divoom_image.image_to_divoom(f)
 		pkg = thing.create_image_package(bytes)
 		dev.send(pkg)
 		time.sleep(0.5)
 
 def firework():
-	basename = "images/firework"
+	basename = imagename("firework")
 	firework_files = []
 	for n in range(1,9):
 		firework_files.append(basename + str(n) + ".bmp")
-	firework_files.append("images/black.bmp")
+	firework_files.append(imagename("black.bmp"))
 	show_files(firework_files, 0.3)
 	
 def firework_predefined():
-	basename = "images/firework"
+	basename = imagename("firework")
 	firework_files = []
 	for n in range(1,9):
 		firework_files.append(basename + str(n) + ".bmp")
@@ -82,11 +86,11 @@ def old_to_new(old_img, new_img, way=1):
 		time.sleep(0.1)
 		
 def scroll_sequence():
-	img_1 = Image.open("images/example7.bmp")
-	img_2 = Image.open("images/example9.bmp")
-	img_3 = Image.open("images/firework6.bmp")
-	img_4 = Image.open("images/example3.bmp")
-	img_5 = Image.open("images/example5.bmp")
+	img_1 = Image.open(imagename("example7.bmp"))
+	img_2 = Image.open(imagename("example9.bmp"))
+	img_3 = Image.open(imagename("firework6.bmp"))
+	img_4 = Image.open(imagename("example3.bmp"))
+	img_5 = Image.open(imagename("example5.bmp"))
 
 	dev.send(thing.create_temp_package())
 	time.sleep(1)
@@ -113,12 +117,12 @@ dev.connect()
 print("firework")
 firework()
 
-files = ["images/example.bmp", "images/example2.bmp", "images/example3.bmp", "images/example4.bmp", "images/example5.bmp", "images/example6.bmp", "images/example7.bmp", "images/example8.bmp", "images/example9.bmp"]
+files = [imagename("example.bmp"), imagename("example2.bmp"), imagename("example3.bmp"), imagename("example4.bmp"), imagename("example5.bmp"), imagename("example6.bmp"), imagename("example7.bmp"), imagename("example8.bmp"), imagename("example9.bmp")]
 print("showing files")
 show_files(files)
 
 print("blinking")
-blink("images/example7.bmp")
+blink(imagename("example7.bmp"))
 
 print("show time")
 dev.send(thing.create_time_package())
