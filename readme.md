@@ -8,6 +8,7 @@
 * Send animation loops
 * Scrolling of images
 * Create text image
+* 3 brightness modes (light, dark, off)
 
 ## Show time ##
 Following static byte array can be sent to show time: 01 04 00 45 00 49 00 02
@@ -19,7 +20,7 @@ Following bytes can be sent to set the time. Postfix and Invalid bytes applies h
 ## Show temperature ##
 Following static byte array can be sent to temperature time: 01 04 00 45 03 04 4a 00 02
 
-## Sending image ##
+## Send image ##
 
 ### Protocol typical 62 bytes ####
 8 bytes PREFIX
@@ -72,6 +73,10 @@ Write text into an image that suits to be displayed as single image or via the s
 Font used here: http://kottke.org/plus/type/silkscreen/
 Created open format using: otf2bdf -p 8 -r 72 -o slkscr.bdf slkscr.ttf
 Created PIL like format using: pilfont.py slkscr.bdf
+
+## 3 brightness modes (light, dark, off) ##
+Following static byte array can be sent to show bright, dark and to deactivate display: 01 04 00 32 3f 75 00 02, 01 04 00 32 d2 08 03 04 02, 01 04 00 32 00 36 00 02
+
 
 ## Running tests ##
 * python -m divoom_protocol_test

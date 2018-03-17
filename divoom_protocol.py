@@ -69,6 +69,18 @@ class DivoomAuraBoxProtocol:
 		"""Creates package to let the thing show the current temperature."""
 		return [0x01,0x04,0x00,0x45,0x03,0x04,0x4a,0x00,0x02]
 		
+	def create_bright_package(self):
+		"""Creates package to display the current content bright."""
+		return [0x01, 0x04, 0x00, 0x32, 0x3f, 0x75, 0x00, 0x02]
+		
+	def create_dark_package(self):
+		"""Creates package to display the current content in lower brightness."""
+		return [0x01, 0x04, 0x00, 0x32, 0xd2, 0x08, 0x03, 0x04, 0x02]
+		
+	def create_off_package(self):
+		"""Creates package to disable the display (setting the brightness to 0)."""
+		return [0x01, 0x04, 0x00, 0x32, 0x00, 0x36, 0x00, 0x02]
+		
 	def create_set_time_package(self, hours, minutes, seconds):
 		function = [0x0b, 0x00, 0x18, 0x11, 0x14, 0x0b, 0x1c]
 		time = [int(hours), int(minutes), int(seconds), 5]
