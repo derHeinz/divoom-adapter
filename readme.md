@@ -85,3 +85,9 @@ Following static byte array can be sent to show bright, dark and to deactivate d
 ## Needed python libraries (install with pip install) ##
 * pybluez (bluetooth connection) you probably need to install other things: sudo apt-get install libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev
 * pillow (python image processing)
+
+## Running the examples ##
+```sh
+python show-time.py 01:23:45:67:89:AB
+python example.py 01:23:45:67:89:AB
+```
