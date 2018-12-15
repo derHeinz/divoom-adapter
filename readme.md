@@ -79,8 +79,10 @@ Following static byte array can be sent to show bright, dark and to deactivate d
 
 
 ## Running tests ##
-* python -m divoom_protocol_test
-* python -m divoom_image_test
+```sh
+python -m divoom_protocol_test
+python -m divoom_image_test
+```
 
 ## Needed python libraries (install with pip install) ##
 * pybluez (bluetooth connection) you probably need to install other things: sudo apt-get install libboost-python-dev libboost-thread-dev libbluetooth-dev libglib2.0-dev
