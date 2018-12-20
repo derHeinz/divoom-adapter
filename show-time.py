@@ -4,6 +4,9 @@ import divoom_protocol
 import divoom_device
 
 
+if len(sys.argv) != 2:
+	sys.exit("please provide the Bluetooth device address")
+
 # create time
 hour12 = time.strftime('%I')
 minute = time.strftime('%M')

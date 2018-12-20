@@ -108,6 +108,9 @@ def scroll_sequence():
 	old_to_new(img_4, img_5, 4)
 
 
+if len(sys.argv) != 2:
+	sys.exit("please provide the Bluetooth device address")
+
 DIVOMM_ADR = sys.argv[1]
 thing = divoom_protocol.DivoomAuraBoxProtocol()
 dev = divoom_device.DivoomDevice(DIVOMM_ADR)
