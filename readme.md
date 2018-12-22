@@ -11,6 +11,7 @@
 * 3 brightness modes (light, dark, off)
 
 For detailed information about the protocol, see the [AuraBox Protocol](aurabox-protocol.md).
+All details about the AuraBox native commands are in the full list of the [AuraBox Commands](aurabox-commands.md).
 
 ## Show time ##
 Following static byte array can be sent to show time: 01 04 00 45 00 49 00 02
