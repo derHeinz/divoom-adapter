@@ -83,8 +83,7 @@ Following static byte array can be sent to show bright, dark and to deactivate d
 
 ## Running tests ##
 ```sh
-python -m divoom_protocol_test
-python -m divoom_image_test
+python -m unittest discover -p '*_test.py'
 ```
 
 ## Needed python libraries (install with pip install) ##
