@@ -29,9 +29,13 @@ class DivoomAuraBoxFraming:
 class DivoomAuraBoxProtocol:
 	"""Creates pattern for divoom aurabox."""
 	
+	COMMAND_SWITCH_SCREEN = 0x45
 	COMMAND_SET_TIME = 0x18
 	COMMAND_SHOW_IMAGE = 0x44
 	COMMAND_SHOW_ANIMATION = 0x49
+
+	SCREEN_TIME = 0
+	SCREEN_TEMPERATURE = 1
 
 	IMAGE_HEADER = [0x00, 0x0a, 0x0a, 0x04]
 
@@ -52,12 +56,15 @@ class DivoomAuraBoxProtocol:
 		
 	def create_time_package(self):
 		"""Creates package to let the thing show the current time."""
-		return [0x01, 0x04, 0x00, 0x45, 0x00, 0x49, 0x00, 0x02]
+		return self.__switch_screen(self.SCREEN_TIME)
 		
 	def create_temp_package(self):
 		"""Creates package to let the thing show the current temperature."""
-		return [0x01,0x04,0x00,0x45,0x03,0x04,0x4a,0x00,0x02]
-		
+		return self.__switch_screen(self.SCREEN_TEMPERATURE)
+
+	def __switch_screen(self, value):
+		return self.create_package(self.COMMAND_SWITCH_SCREEN, [value])
+
 	def create_bright_package(self):
 		"""Creates package to display the current content bright."""
 		return [0x01, 0x04, 0x00, 0x32, 0xd2, 0x08, 0x03, 0x04, 0x02]
