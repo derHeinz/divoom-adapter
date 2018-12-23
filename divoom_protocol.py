@@ -11,10 +11,12 @@ class DivoomAuraBoxFraming:
 
 	def create(self, value):
 		frame = []
+		frame.append(self.START_OF_FRAME)
 
 		for symbol in value:
 			frame += self.__escape(symbol)
 
+		frame.append(self.END_OF_FRAME)
 		return frame
 
 	def __escape(self, value):
@@ -26,10 +28,6 @@ class DivoomAuraBoxFraming:
 
 class DivoomAuraBoxProtocol:
 	"""Creates pattern for divoom aurabox."""
-	
-	# static values begin and end of protocol
-	PREFIX = 0x01
-	POSTFIX = 0x02
 	
 	SINGLE_IMAGE = [0x39, 0x00, 0x44, 0x00, 0x0a, 0x0a, 0x04] # single image function
 	ANIMATION = [0x3b, 0x00, 0x49, 0x00, 0x0a, 0x0a, 0x04] # followed by 1-2 bytes of number (invalid byte replacement)
@@ -99,4 +97,4 @@ class DivoomAuraBoxProtocol:
 		# replace illegal bytes in data
 		joined_data = self.__framing.create(frame_content)
 
-		return [self.PREFIX] + joined_data + [self.POSTFIX]
+		return joined_data
