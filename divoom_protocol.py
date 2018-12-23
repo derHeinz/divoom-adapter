@@ -29,8 +29,11 @@ class DivoomAuraBoxFraming:
 class DivoomAuraBoxProtocol:
 	"""Creates pattern for divoom aurabox."""
 	
-	SINGLE_IMAGE = [0x39, 0x00, 0x44, 0x00, 0x0a, 0x0a, 0x04] # single image function
-	ANIMATION = [0x3b, 0x00, 0x49, 0x00, 0x0a, 0x0a, 0x04] # followed by 1-2 bytes of number (invalid byte replacement)
+	COMMAND_SET_TIME = 0x18
+	COMMAND_SHOW_IMAGE = 0x44
+	COMMAND_SHOW_ANIMATION = 0x49
+
+	IMAGE_HEADER = [0x00, 0x0a, 0x0a, 0x04]
 
 	def __init__(self):
 		self.__framing = DivoomAuraBoxFraming()
@@ -40,10 +43,10 @@ class DivoomAuraBoxProtocol:
 		result = []
 		for i in range(0, len(data_array)):
 			function = []
-			function.extend(self.ANIMATION)
+			function.extend(self.IMAGE_HEADER)
 			function.append(i)
 			function.append(time_length)
-			single_package = self.create_package_for_image(function, data_array[i])
+			single_package = self.create_package_for_image(self.COMMAND_SHOW_ANIMATION, function, data_array[i])
 			result.append(single_package)
 		return result
 		
@@ -68,33 +71,38 @@ class DivoomAuraBoxProtocol:
 		return [0x01, 0x04, 0x00, 0x32, 0x00, 0x36, 0x00, 0x02]
 		
 	def create_set_time_package(self, hours, minutes, seconds):
-		function = [0x0b, 0x00, 0x18, 0x11, 0x14, 0x0b, 0x1c]
-		time = [int(hours), int(minutes), int(seconds), 5]
-		return self.create_package(function, time)
+		time = [0x11, 0x14, 0x0b, 0x1c, int(hours), int(minutes), int(seconds), 5]
+		return self.create_package(self.COMMAND_SET_TIME, time)
 	
 	def create_image_package(self, data):
 		"""Creates package show a single image."""
-		return self.create_package_for_image(self.SINGLE_IMAGE, data)
+		return self.create_package_for_image(self.COMMAND_SHOW_IMAGE, self.IMAGE_HEADER, data)
 		
-	def create_package_for_image(self, function_prefix, data):
+	def create_package_for_image(self, command, header, data):
 		# check data has excactly 50 bytes
 		if (len(data) != 50):
 			raise Exception('given data has invalid size: ' + str(len(data)))
-		return self.create_package(function_prefix, data)
+		return self.create_package(command, header + data)
 		
-	def create_package(self, function_prefix, data):	
-		frame_content = function_prefix + data
+	def create_package(self, command, data):
+		data = [command] + data
+
+		length = len(data) + 2
+		length_lowerbytes = length & 0xFF
+		length_upperbytes = length >> 8
+
+		data = [length_lowerbytes, length_upperbytes] + data
 
 		# crc calculation
-		crc = sum(frame_content)
+		crc = sum(data)
 		
 		crc_lowerbytes = crc & 0xFF
 		crc_upperbytes = crc >> 8
 
 		# construct complete package
-		frame_content += [crc_lowerbytes, crc_upperbytes]
+		data += [crc_lowerbytes, crc_upperbytes]
 
 		# replace illegal bytes in data
-		joined_data = self.__framing.create(frame_content)
+		joined_data = self.__framing.create(data)
 
 		return joined_data
