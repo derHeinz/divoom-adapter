@@ -88,21 +88,18 @@ class DivoomAuraBoxProtocol:
 		data = [command] + data
 
 		length = len(data) + 2
-		length_lowerbytes = length & 0xFF
-		length_upperbytes = length >> 8
-
-		data = [length_lowerbytes, length_upperbytes] + data
+		data = self.__word_to_list(length) + data
 
 		# crc calculation
 		crc = sum(data)
-		
-		crc_lowerbytes = crc & 0xFF
-		crc_upperbytes = crc >> 8
-
-		# construct complete package
-		data += [crc_lowerbytes, crc_upperbytes]
+		data = data + self.__word_to_list(crc)
 
 		# replace illegal bytes in data
 		joined_data = self.__framing.create(data)
 
 		return joined_data
+
+	def __word_to_list(self, value):
+		lower = value & 0xFF
+		upper = value >> 8
+		return [lower, upper]
