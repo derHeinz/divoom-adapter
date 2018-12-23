@@ -1,5 +1,29 @@
 import math
 
+
+class DivoomAuraBoxFraming:
+	START_OF_FRAME = 0x01
+	END_OF_FRAME = 0x02
+	ESCAPING_CHARACTER = 0x03
+
+	def __init__(self):
+		pass
+
+	def create(self, value):
+		frame = []
+
+		for symbol in value:
+			frame += self.__escape(symbol)
+
+		return frame
+
+	def __escape(self, value):
+		if value in [self.START_OF_FRAME, self.END_OF_FRAME, self.ESCAPING_CHARACTER]:
+			return [self.ESCAPING_CHARACTER, value + 0x03]
+		else:
+			return [value]
+
+
 class DivoomAuraBoxProtocol:
 	"""Creates pattern for divoom aurabox."""
 	
@@ -9,40 +33,10 @@ class DivoomAuraBoxProtocol:
 	
 	SINGLE_IMAGE = [0x39, 0x00, 0x44, 0x00, 0x0a, 0x0a, 0x04] # single image function
 	ANIMATION = [0x3b, 0x00, 0x49, 0x00, 0x0a, 0x0a, 0x04] # followed by 1-2 bytes of number (invalid byte replacement)
-	
-	# invalid byte processing
-	INVALID_BYTES = [0x01, 0x02, 0x03]
-	INVALID_BYTE_PREFIX = 0x03
 
 	def __init__(self):
-		pass
+		self.__framing = DivoomAuraBoxFraming()
 
-	def replace_invalid_bytes(self, data):
-		new_data = []
-		for d in data:
-			for inv in self.INVALID_BYTES:
-				if (d == inv):
-					new_data.append(self.INVALID_BYTE_PREFIX)
-					new_data.append(self.replace_byte(inv))
-					break
-			else:
-				new_data.append(d)
-		return new_data
-		
-	def replace_invalid_byte(self, data):
-		new_data = []
-		for inv in self.INVALID_BYTES:
-			if (data == inv):
-				new_data.append(self.INVALID_BYTE_PREFIX)
-				new_data.append(self.replace_byte(inv))
-				break
-		else:
-			new_data.append(data)
-		return new_data
-		
-	def replace_byte(self, data):
-		return (self.INVALID_BYTE_PREFIX + data)
-		
 	def create_animation_packages(self, data_array, time_length=0x05):
 		"""Creates package for predefined animated data that will run unlimited."""
 		result = []
@@ -103,6 +97,6 @@ class DivoomAuraBoxProtocol:
 		frame_content += [crc_lowerbytes, crc_upperbytes]
 
 		# replace illegal bytes in data
-		joined_data = self.replace_invalid_bytes(frame_content)
+		joined_data = self.__framing.create(frame_content)
 
 		return [self.PREFIX] + joined_data + [self.POSTFIX]
