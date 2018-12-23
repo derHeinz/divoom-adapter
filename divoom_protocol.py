@@ -97,28 +97,18 @@ class DivoomAuraBoxProtocol:
 		return self.create_package(function_prefix, data)
 		
 	def create_package(self, function_prefix, data):	
+		frame_content = function_prefix + data
+
 		# crc calculation
-		crc_rel = function_prefix + data
-		crc = sum(crc_rel)
+		crc = sum(frame_content)
 		
 		crc_lowerbytes = crc & 0xFF
 		crc_upperbytes = crc >> 8
-		
-		# replace illegal bytes in data
-		data2 = self.replace_invalid_bytes(data)
-		function_prefix2 = self.replace_invalid_bytes(function_prefix)
-		
+
 		# construct complete package
-		joined_data = [self.PREFIX] + function_prefix2 + data2
-		
-		# append lower and upper checksum (with invalid bytes)
-		lowerbytes = self.replace_invalid_byte(crc_lowerbytes)
-		joined_data.extend(lowerbytes)
-		
-		upperbytes = self.replace_invalid_byte(crc_upperbytes)
-		joined_data.extend(upperbytes)
-		
-		# end token
-		joined_data.append(self.POSTFIX)
-		
-		return joined_data
+		frame_content += [crc_lowerbytes, crc_upperbytes]
+
+		# replace illegal bytes in data
+		joined_data = self.replace_invalid_bytes(frame_content)
+
+		return [self.PREFIX] + joined_data + [self.POSTFIX]
