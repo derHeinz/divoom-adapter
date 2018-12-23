@@ -16,13 +16,7 @@ class DivoomAuraBoxProtocol:
 
 	def __init__(self):
 		pass
-				
-	def contains_invalid_bytes(self, data):
-		for invalid_byte in self.INVALID_BYTES:
-			if invalid_byte in data:
-				return True
-		return False
-		
+
 	def replace_invalid_bytes(self, data):
 		new_data = []
 		for d in data:
