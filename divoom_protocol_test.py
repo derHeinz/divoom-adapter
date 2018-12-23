@@ -1,6 +1,7 @@
 import unittest
 import divoom_protocol
 
+
 class TestDivoomAuraBoxProtocol(unittest.TestCase):
 
 	TESTDATA_DIR = "testdata/"
@@ -29,30 +30,7 @@ class TestDivoomAuraBoxProtocol(unittest.TestCase):
 		end = self.read_bytes("inv_end2")
 		test_package = self.testee.create_image_package(data)
 		self.assertEquals(end, test_package)
-		
-	def test_contains_invalid(self):
-		self.assertEqual(self.testee.contains_invalid_bytes([0, 0, 7]), False)
-		self.assertEqual(self.testee.contains_invalid_bytes([0, 7, 7]), False)
-		self.assertEqual(self.testee.contains_invalid_bytes([7, 0]), False)
-		self.assertEqual(self.testee.contains_invalid_bytes([0]), False)
-		
-		self.assertEqual(self.testee.contains_invalid_bytes([0, 7, 1]), True)
-		self.assertEqual(self.testee.contains_invalid_bytes([0, 1, 1]), True)
-		self.assertEqual(self.testee.contains_invalid_bytes([1, 0, 7]), True)
-		self.assertEqual(self.testee.contains_invalid_bytes([3, 0]), True)
-		self.assertEqual(self.testee.contains_invalid_bytes([2]), True)
-		
-	def test_replace_invalid_bytes(self):
-		# no replacements
-		self.assertEqual(self.testee.replace_invalid_bytes([0, 7]), [0, 7])
-		self.assertEqual(self.testee.replace_invalid_bytes([0, 7, 7]), [0, 7, 7])
-		
-		# replace
-		self.assertEqual(self.testee.replace_invalid_bytes([0, 1, 7]), [0, 3, 4, 7])
-		self.assertEqual(self.testee.replace_invalid_bytes([2, 3, 7]), [3, 5, 3, 6, 7])
-		self.assertEqual(self.testee.replace_invalid_bytes([2, 7]), [3, 5, 7])
-		self.assertEqual(self.testee.replace_invalid_bytes([3]), [3, 6])
-		
+
 	def test_front_bytes(self):
 		data = self.read_bytes("crc2")
 		test_package = self.testee.create_image_package(data)
@@ -217,6 +195,4 @@ class TestDivoomAuraBoxProtocol(unittest.TestCase):
 		# check with strings
 		test_package = self.testee.create_set_time_package("11", "30", "59")
 		self.assertEqual(test_package, package_assert)
-		
-if __name__ == '__main__':
-	unittest.main()
+

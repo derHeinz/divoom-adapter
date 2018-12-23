@@ -37,6 +37,4 @@ class TestDivoomAuraBoxImage(unittest.TestCase):
 		
 		self.assertEquals(len(img.getdata()), len(img2.getdata()))
 		self.assertItemsEqual(img.getdata(), img2data)
-		
-if __name__ == '__main__':
-	unittest.main()
+
