@@ -29,6 +29,7 @@ class DivoomAuraBoxFraming:
 class DivoomAuraBoxProtocol:
 	"""Creates pattern for divoom aurabox."""
 	
+	COMMAND_SET_BRIGHTNESS = 0x32
 	COMMAND_SWITCH_SCREEN = 0x45
 	COMMAND_SET_TIME = 0x18
 	COMMAND_SHOW_IMAGE = 0x44
@@ -67,15 +68,18 @@ class DivoomAuraBoxProtocol:
 
 	def create_bright_package(self):
 		"""Creates package to display the current content bright."""
-		return [0x01, 0x04, 0x00, 0x32, 0xd2, 0x08, 0x03, 0x04, 0x02]
+		return self.__set_brightness(0xd2)
 		
 	def create_dark_package(self):
 		"""Creates package to display the current content in lower brightness."""
-		return [0x01, 0x04, 0x00, 0x32, 0x3f, 0x75, 0x00, 0x02]
+		return self.__set_brightness(0x3f)
 		
 	def create_off_package(self):
 		"""Creates package to disable the display (setting the brightness to 0)."""
-		return [0x01, 0x04, 0x00, 0x32, 0x00, 0x36, 0x00, 0x02]
+		return self.__set_brightness(0)
+
+	def __set_brightness(self, value):
+		return self.create_package(self.COMMAND_SET_BRIGHTNESS, [value])
 		
 	def create_set_time_package(self, hours, minutes, seconds):
 		time = [0x11, 0x14, 0x0b, 0x1c, int(hours), int(minutes), int(seconds), 5]
